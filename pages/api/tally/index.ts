@@ -30,6 +30,7 @@ const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
         pagination: { limit: 10, offset: 0 },
       },
     });
+    console.log("tally graph ql", data);
 
     res.status(200).json(data);
   } catch (err: any) {
