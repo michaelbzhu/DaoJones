@@ -41,6 +41,8 @@ const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
         walletInfos.wallet = walletInfo;
       });
 
+      console.log({ wallets, walletInfos });
+
       res.status(200).json(walletInfos);
     }
     // Do nothing on any other HTTP method
