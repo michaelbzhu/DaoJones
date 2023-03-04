@@ -1,8 +1,10 @@
 import { EthProvider } from "./contexts/EthContext";
-import Intro from "./components/Intro/";
+import Intro from "./components/Intro";
 import Setup from "./components/Setup";
 import Demo from "./components/Demo";
 import Footer from "./components/Footer";
+// import GovernorTable from "./components/GovernorTable"
+import BasicTable from "./components/BasicTable"
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Demo />
           <hr />
           <Footer />
+          {/* <GovernorTable /> */}
+          <BasicTable />
         </div>
       </div>
     </EthProvider>
