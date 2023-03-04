@@ -57,8 +57,8 @@ const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
             .get(`https://api.spectral.finance/api/v1/addresses/${wallet}`)
             .json()
             .then((walletInfo) => {
-              // console.log({ wallet, walletInfo });
-              walletInfo[wallet] = walletInfo;
+              console.log("here -------------------", { wallet, walletInfo });
+              walletInfos[wallet] = walletInfo;
             })
         );
       });

@@ -72,7 +72,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
         .then((response) => {
           console.log("-------------");
           console.log({ name, response });
-          governors.name = response;
+          governors[name] = response;
         })
         .catch((err) => {
           console.log("error----------------------", err);
