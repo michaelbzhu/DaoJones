@@ -1,7 +1,6 @@
-import Graph from 'vis-react';
-import vis, { Data, Node, Edge, Options, NetworkEvents, IdType } from 'vis';
+import Graph from "react-graph-vis";
+import vis, { Data, Node, Edge, Options } from 'vis';
 
-// Refer to https://codesandbox.io/embed/3vvy7xqo9m for more info.
 
 interface ILensGraphProps {
   nodes: Node[];
@@ -9,17 +8,29 @@ interface ILensGraphProps {
 }
 
 const options: Options = {
-  layout: {
-    hierarchical: true
+  nodes: {
+    shape: 'dot',
+    size: 25
   },
   edges: {
-    color: '#000000'
+    smooth: {
+      enabled: true,
+      type: "vertical",
+      roundness: 0.5,
+    }
   },
-  interaction: { hoverEdges: true }
-};
+  physics: {
+    barnesHut: {
+      gravitationalConstant: -5300,
+      springLength: 300,
+      avoidOverlap: 1
+    },
+    minVelocity: 0.75
+  }
+}
 
 const styleNodes = (nodes: Node[]) => new vis.DataSet(nodes.map(node => {
-  node.font = { size: 24, color: 'black', face: 'courier', strokeWidth: 3, strokeColor: 'white', face: 'arial' }
+  node.font = { size: 24, color: 'black', face: 'courier', strokeWidth: 3, strokeColor: 'white' }
   return node;
 }));
 
@@ -43,6 +54,5 @@ export default function LensGraph({
     graph={graph}
     options={options}
     events={{}}
-    vis={vis}
   />;
 }
