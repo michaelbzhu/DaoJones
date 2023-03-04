@@ -94,8 +94,8 @@ function GovernorTable() {
   useEffect(() => {
     const updateTableData = async () => {
       const governors = await getGovernors({
-        numberOfGovs: 3,
-        maxDelegatesPerGov: 5,
+        numberOfGovs: 10,
+        maxDelegatesPerGov: 2,
       })
       console.log({ governors })
 

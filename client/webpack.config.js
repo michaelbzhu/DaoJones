@@ -5,8 +5,6 @@ const Dotenv = require('dotenv-webpack')
 
 const extensions = ['.tsx', '.ts', '.js', '.jsx']
 
-console.log('tally key', process.env.TALLY_KEY)
-
 module.exports = {
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
   entry: './src/index.jsx',

@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client";
-import client from "./apollo-client";
+import { gql } from '@apollo/client'
+import client from './apollo-client'
 
 // sample return object from tally api
 // governors: [
@@ -21,15 +21,15 @@ import client from "./apollo-client";
 
 type Delegate = {
   account: {
-    address: string;
-  };
-};
+    address: string
+  }
+}
 
 type Governor = {
-  id: string;
-  name: string;
-  delegates: Delegate[];
-};
+  id: string
+  name: string
+  delegates: Delegate[]
+}
 
 /**
  *
@@ -40,10 +40,12 @@ type Governor = {
  */
 export const getGovernors = async ({
   numberOfGovs,
+  govOffset,
   maxDelegatesPerGov,
 }: {
-  numberOfGovs: number;
-  maxDelegatesPerGov: number;
+  numberOfGovs: number
+  govOffset?: number
+  maxDelegatesPerGov: number
 }): Promise<Governor[]> => {
   const { data } = await client.query({
     query: gql`
@@ -70,13 +72,13 @@ export const getGovernors = async ({
       }
     `,
     variables: {
-      sort: { field: "TOTAL_PROPOSALS", order: "DESC" },
-      govPagination: { limit: numberOfGovs, offset: 0 },
-      delegateSort: { field: "VOTING_WEIGHT", order: "DESC" },
+      sort: { field: 'TOTAL_PROPOSALS', order: 'DESC' },
+      govPagination: { limit: numberOfGovs, offset: govOffset ?? 0 },
+      delegateSort: { field: 'VOTING_WEIGHT', order: 'DESC' },
       delegatePagination: { limit: maxDelegatesPerGov, offset: 0 },
     },
-  });
+  })
 
-  console.log("tally graph ql", data);
-  return data.governors;
-};
+  console.log('tally graph ql', data)
+  return data.governors
+}
