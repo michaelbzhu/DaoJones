@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
+    "@tanstack/react-table": "^8.7.9",
     "graphql": "^16.6.0",
     "ky": "^0.33.2",
     "next": "12.3.0",
