@@ -9,6 +9,7 @@ import client from "./api/tally/apollo-client";
 import { GetServerSideProps } from "next";
 import { gql } from "@apollo/client";
 import ky from "ky";
+import { getGovernors } from "../../utils/getGovernors";
 
 type GovernorData = {
   name: string;
@@ -74,55 +75,27 @@ const GovernorTable = (governors: GovernorData[]) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   // mocked data - the query below returns this object
-  return {
-    props: {
-      governors: [
-        { name: "veggieDAO", macroScore: 596.3076923076923 },
-        { name: "Nouns Dao", macroScore: 608.2 },
-      ],
-    },
-  };
-  const { data } = await client.query({
-    query: gql`
-      query Governors(
-        $chainIds: [ChainID!]
-        $govPagination: Pagination
-        $sort: GovernorSort
-        $delegateSort: DelegateSort
-        $delegatePagination: Pagination
-      ) {
-        governors(
-          chainIds: $chainIds
-          pagination: $govPagination
-          sort: $sort
-        ) {
-          id
-          name
-          delegates(sort: $delegateSort, pagination: $delegatePagination) {
-            account {
-              address
-            }
-          }
-          proposalStats {
-            total
-          }
-        }
-      }
-    `,
-    variables: {
-      sort: { field: "TOTAL_PROPOSALS", order: "DESC" },
-      govPagination: { limit: 2, offset: 0 },
-      delegateSort: { field: "VOTING_WEIGHT", order: "DESC" },
-      delegatePagination: { limit: 20, offset: 0 },
-    },
+  // return {
+  //   props: {
+  //     governors: [
+  //       { name: "veggieDAO", macroScore: 596.3076923076923 },
+  //       { name: "Nouns Dao", macroScore: 608.2 },
+  //     ],
+  //   },
+  // };
+
+  const governorsFromTally = await getGovernors({
+    numberOfGovs: 2,
+    maxDelegatesPerGov: 10,
   });
-  console.log("tally graph ql", data);
+
+  console.log({ governorsFromTally });
 
   const governorPromises = [];
 
   const governors: { [name: string]: number } = {};
 
-  data.governors.forEach(({ name, delegates }) => {
+  governorsFromTally.forEach(({ name, delegates }) => {
     console.log({
       name,
       delegates: delegates.map(({ account }) => account.address),
