@@ -1,3 +1,4 @@
+import React from 'react';
 import Graph from "react-graph-vis";
 import vis, { Data, Node, Edge, Options } from 'vis';
 
