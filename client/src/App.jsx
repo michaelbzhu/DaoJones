@@ -1,10 +1,9 @@
-import { EthProvider } from "./contexts/EthContext";
-import Intro from "./components/Intro";
-import Setup from "./components/Setup";
-import Demo from "./components/Demo";
-import Footer from "./components/Footer";
-// import GovernorTable from "./components/GovernorTable"
-import BasicTable from "./components/BasicTable"
+import { EthProvider } from './contexts/EthContext'
+import Intro from './components/Intro'
+import Setup from './components/Setup'
+import Demo from './components/Demo'
+import Footer from './components/Footer'
+import GovernorTable from './components/GovernorTable'
 
 function App() {
   return (
@@ -18,12 +17,11 @@ function App() {
           <Demo />
           <hr />
           <Footer />
-          {/* <GovernorTable /> */}
-          <BasicTable />
+          <GovernorTable />
         </div>
       </div>
     </EthProvider>
-  );
+  )
 }
 
-export default App;
+export default App
