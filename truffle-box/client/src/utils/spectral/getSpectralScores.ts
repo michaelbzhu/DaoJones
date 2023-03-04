@@ -38,7 +38,7 @@ export const getSpectralScores = async ({
 }: {
   wallets: string[];
 }): Promise<{ [wallet: string]: SpectralWalletInfoWithScore }> => {
-  const spectralPromises = [];
+  const spectralPromises: unknown[] = [];
   const walletInfos: { [wallet: string]: SpectralWalletInfoWithScore } = {};
 
   const api = getAuthedSpectralApi();

@@ -12,7 +12,7 @@ export const scheduleSpectralScores = async ({
 }): Promise<string[]> => {
   const api = getAuthedSpectralApi();
 
-  var walletScheduleScorePromises = [];
+  var walletScheduleScorePromises: unknown[] = [];
   var successfullyScheduledWallets: string[] = [];
   // make post request to spectral
   wallets.forEach((wallet) => {

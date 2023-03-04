@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import client from "../src/pages/api/tally/apollo-client";
+import client from "./apollo-client";
 
 // sample return object from tally api
 // governors: [
