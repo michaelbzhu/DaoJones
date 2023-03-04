@@ -14,7 +14,7 @@ const Layout = ({ children, title = "This is the default title" }: Props) => (
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
-    <header>
+    <header className=" text-green-800">
       <nav>
         <Link href="/">Home</Link> | <Link href="/about">About</Link> |{" "}
         <Link href="/users">Users List</Link>{" "}| {" "}   <Link href="/lens">Lens Browser</Link> {" "}
@@ -23,7 +23,7 @@ const Layout = ({ children, title = "This is the default title" }: Props) => (
     {children}
     <footer>
       <hr />
-      <span>I'm here to stay (Footer)</span>
+      <span className="font-bold">I'm here to stay (Footer)</span>
     </footer>
   </div>
 );
