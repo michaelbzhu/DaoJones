@@ -7,6 +7,9 @@ import {
 
 import { EthProvider } from "./contexts/EthContext";
 import Layout from "./Layout";
+
+import Graph from "./routes/graph";
+
 import "./styles.css";
 
 const router = createBrowserRouter([
@@ -17,6 +20,10 @@ const router = createBrowserRouter([
       {
         path: "/lens",
         element: "lens"
+      },
+      {
+        path: "/graph",
+        element: <Graph />
       }
     ]
   },

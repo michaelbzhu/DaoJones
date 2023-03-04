@@ -9,10 +9,12 @@ module.exports = {
   entry: "./src/index.jsx",
   output: {
     path: path.resolve(__dirname, "build"),
+    publicPath: '/'
   },
   resolve: { extensions },
   devtool: 'inline-source-map',
   devServer: {
+    historyApiFallback: true,
     client: {
       overlay: false,
     },

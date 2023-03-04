@@ -6,6 +6,7 @@ function Layout() {
     <div id="App">
       <div className="container">
         <Link className="text-xl" to="/lens">LENS LINK</Link>
+        <Link className="text-xl" to="/graph">GRAPH LINK</Link>
         <hr />
         <Outlet />
       </div>
