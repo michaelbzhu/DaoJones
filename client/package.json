@@ -13,9 +13,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-graph-vis": "^1.0.7",
+    "react-router-dom": "^6.8.2",
     "react-table": "^7.8.0",
     "styled-components": "^5.3.8",
-    "react-router-dom": "^6.8.2",
     "ts-loader": "^9.4.2",
     "web3": "^1.8.2"
   },
@@ -27,6 +27,7 @@
     "@types/react-table": "^7.7.14",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.3",
+    "dotenv-webpack": "^8.0.1",
     "eslint": "^8.34.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-webpack-plugin": "^4.0.0",

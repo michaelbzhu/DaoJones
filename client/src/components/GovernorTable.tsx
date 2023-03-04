@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useTable } from 'react-table'
+import { getGovernors } from '../utils/tally/getGovernors'
+import { scheduleAndRequestSpectralScores } from '../utils/spectral/scheduleAndRequestSpectralScores'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -82,13 +84,48 @@ function GovernorTable() {
     []
   )
 
-  const data = React.useMemo(
-    () => [
-      { dao: 'DAO1', score: 650 },
-      { dao: 'DAO1', score: 650 },
-    ],
-    []
-  )
+  const [tableData, setTableData] = React.useState([
+    { dao: 'DAO1', score: 650 },
+    { dao: 'DAO1', score: 650 },
+  ])
+
+  const data = React.useMemo(() => tableData, [tableData])
+
+  useEffect(() => {
+    const updateTableData = async () => {
+      const governors = await getGovernors({
+        numberOfGovs: 3,
+        maxDelegatesPerGov: 5,
+      })
+      console.log({ governors })
+
+      const tableData = []
+      const promiseArrForEachDAO = []
+      governors.forEach(async (governor) => {
+        promiseArrForEachDAO.push(
+          scheduleAndRequestSpectralScores({
+            wallets: governor.delegates.map(
+              (delegate) => delegate.account.address
+            ),
+          }).then(({ walletInfos }) => {
+            const wallets = Object.keys(walletInfos)
+            tableData.push({
+              dao: governor.name,
+              score:
+                wallets.reduce((sum, wallet) => {
+                  return sum + Number(walletInfos[wallet].score)
+                }, 0) / wallets.length,
+            })
+          })
+        )
+      })
+
+      await Promise.all(promiseArrForEachDAO)
+      setTableData(tableData)
+    }
+
+    updateTableData()
+  }, [])
 
   return (
     <Styles>
