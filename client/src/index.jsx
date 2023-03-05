@@ -13,7 +13,7 @@ import {
   darkTheme,
 } from '@rainbow-me/rainbowkit'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { arbitrumGoerli} from 'wagmi/chains'
+import { arbitrumGoerli } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import './styles.css'
@@ -45,7 +45,7 @@ const { chains, provider } = configureChains(
 )
 
 const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
+  appName: 'DAO Jones',
   chains,
 })
 
