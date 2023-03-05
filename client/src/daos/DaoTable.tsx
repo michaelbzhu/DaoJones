@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { getGovernorsSortedByProposals } from '../tally/getGovernorsSortedByProposals'
 import { scheduleAndRequestSpectralScores } from '../spectral/scheduleAndRequestSpectralScores'
 import { daoImageMap } from '../utils/daoImageMap'
+import { whitelistedGovernorsWithSpectralData } from './whitelistedGovernorsWithSpectralData'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -72,10 +73,25 @@ function BasicTable({ data }: { data: GovernorRowData[] }) {
 }
 
 function DaoTable() {
-  const [tableData, setTableData] = React.useState(null)
+  // use precomputed data
+  const governorData = whitelistedGovernorsWithSpectralData.map(
+    ({ name, id, walletInfos }) => {
+      const wallets = Object.keys(walletInfos)
+      return {
+        name,
+        address: id.split(':').at(-1),
+        score:
+          wallets.reduce((sum, wallet) => {
+            return sum + Number(walletInfos[wallet].score)
+          }, 0) / wallets.length,
+      } as GovernorRowData
+    }
+  )
 
-  const data = React.useMemo(() => tableData, [tableData])
+  governorData.sort((a, b) => b.score - a.score)
+  const [data, setData] = React.useState(governorData)
 
+  // use to get data live at runtime
   useEffect(() => {
     const updateTableData = async () => {
       const governors = await getGovernorsSortedByProposals({
@@ -109,10 +125,8 @@ function DaoTable() {
       await Promise.all(promiseArrForEachDAO)
       console.log({ tableData })
       tableData.sort((a, b) => b.score - a.score)
-      setTableData(tableData)
+      setData(tableData)
     }
-
-    updateTableData()
   }, [])
 
   return (
