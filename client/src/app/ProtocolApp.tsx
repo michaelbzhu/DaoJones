@@ -32,7 +32,7 @@ const ProtocolApp = () => {
           Borrow
         </a>
       </div>
-      <div className="flex justify-center py-5">
+      <div className="flex w-full min-w-full justify-center py-8   text-center">
         {tab === 'borrow' ? <Borrow /> : <Lend />}
       </div>
     </div>
