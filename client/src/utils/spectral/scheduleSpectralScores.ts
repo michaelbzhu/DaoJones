@@ -1,4 +1,4 @@
-import { getAuthedSpectralApi } from "./getAuthedSpectralApi";
+import { getAuthedSpectralApi } from './getAuthedSpectralApi'
 
 /**
  *
@@ -8,12 +8,12 @@ import { getAuthedSpectralApi } from "./getAuthedSpectralApi";
 export const scheduleSpectralScores = async ({
   wallets,
 }: {
-  wallets: string[];
+  wallets: string[]
 }): Promise<string[]> => {
-  const api = getAuthedSpectralApi();
+  const api = getAuthedSpectralApi()
 
-  var walletScheduleScorePromises: unknown[] = [];
-  var successfullyScheduledWallets: string[] = [];
+  var walletScheduleScorePromises: unknown[] = []
+  var successfullyScheduledWallets: string[] = []
   // make post request to spectral
   wallets.forEach((wallet) => {
     walletScheduleScorePromises.push(
@@ -22,15 +22,15 @@ export const scheduleSpectralScores = async ({
           `https://api.spectral.finance/api/v1/addresses/${wallet}/calculate_score`
         )
         .then(() => {
-          console.log("success", wallet);
-          successfullyScheduledWallets.push(wallet);
+          console.log('successfully scheduled', wallet)
+          successfullyScheduledWallets.push(wallet)
         })
         .catch((err) => {
           // console.log("error", { wallet, err });
         })
-    );
-  });
+    )
+  })
 
-  await Promise.all(walletScheduleScorePromises);
-  return successfullyScheduledWallets;
-};
+  await Promise.all(walletScheduleScorePromises)
+  return successfullyScheduledWallets
+}

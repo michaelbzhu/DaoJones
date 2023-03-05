@@ -1,4 +1,4 @@
-import ky from "ky";
+import ky from 'ky'
 
 /**
  * get a ky api object that has already setup the auth header with the spectral api key
@@ -10,12 +10,12 @@ export const getAuthedSpectralApi = () => {
       beforeRequest: [
         (request) => {
           request.headers.set(
-            "Authorization",
-            `Bearer ${process.env.SPECTRAL_KEY}`
-          );
+            'Authorization',
+            `Bearer ${import.meta.env.VITE_SPECTRAL_KEY}`
+          )
         },
       ],
     },
-  });
-  return api;
-};
+  })
+  return api
+}
