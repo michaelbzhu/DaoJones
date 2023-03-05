@@ -7,13 +7,15 @@ export const scheduleAndRequestSpectralScores = async ({
   wallets: string[]
 }) => {
   // only for mocking
-  // const res = {}
-  // wallets.forEach((wallet) => {
-  //   res[wallet] = {
-  //     score: 600,
-  //   }
-  // })
-  // return { walletInfos: res }
+  const res = {}
+  wallets.forEach((wallet) => {
+    res[wallet] = {
+      score: 600,
+    }
+  })
+  return { walletInfos: res }
+
+  // call both scheduleSpectralScores and getSpectralScores with a 1 sec delay
   try {
     // console.log("wallets", wallets);
 
