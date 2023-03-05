@@ -32,12 +32,15 @@ adjacency_query = """
 """
 @app.route("/<profile_id>")
 def lens_data(profile_id):
+	with open('/Users/rishabhkrishnan/addresses_gotten.json', 'rb') as scores_file:
+		scores = json.load(scores_file)
 	main_address_result = client.query(main_address_query.format(profile_id))
 	main_address = list(main_address_result)[0][0]
 	print("Main Address: ", main_address)
 	query_job = client.query(initial_query.format(profile_id))
 	#print([row[0] for row in query_job])
-	addresses = [row[0]['_field_1'] for row in query_job][:MAX_ADDRESSES]
+	addresses = [row[0]['_field_1'] for row in query_job]
+	addresses = [x for x in addresses if x in scores ]
 	address_query_string = ",".join(["\'{}\'".format(addy) for addy in addresses])
 	print("Profile Query: {}".format(profile_query.format(address_query_string)))
 	profile_rows = client.query(profile_query.format(address_query_string))
@@ -61,8 +64,7 @@ def lens_data(profile_id):
 			edges.append((row[0]['_field_1'], profileToAddress[row[0]['_field_2']]))
 
 
-	with open('/Users/rishabhkrishnan/addresses_gotten.json', 'rb') as scores_file:
-		scores = json.load(scores_file)
+	
 
 	nodes = [{'address': address, 'value': scores.get(address,0), 'profiles':[k for k,v in profileToAddress.items() if v==address]} for address in addresses ]
 	return {'nodes': nodes, 'edges': edges, 'main_address': main_address}
