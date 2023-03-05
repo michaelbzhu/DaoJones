@@ -10,7 +10,7 @@ function Layout() {
           <Link className="btn btn-ghost normal-case text-xl" to="/">The DAO Jones</Link>
         </div>
         <div className="flex-none">
-          <ul className="menu menu-horizontal px-1 space-between-2">
+          <ul className="menu menu-horizontal px-1 space-x-2">
             <Link className="text-xl" to="/daos">
               DAOs
             </Link>

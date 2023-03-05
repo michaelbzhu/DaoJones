@@ -1,8 +1,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Graph from "react-graph-vis";
-import { DataSet } from "vis-data";
 import { Node, Edge, Options } from 'vis';
 import ky from 'ky';
+import Colors from 'colorjs.io';
+import Loading from '../components/Loading';
+import { getProfile, LensProfile } from '../utils/lens/getProfile'
+
+const API_BASE = 'http://127.0.0.1:5000';
 
 const options: Options = {
   nodes: {
@@ -18,9 +22,9 @@ const options: Options = {
   },
   physics: {
     barnesHut: {
-      gravitationalConstant: -5300,
-      springLength: 300,
-      avoidOverlap: 1
+      gravitationalConstant: 0,
+      centralGravity: 0,
+      springConstant: 0
     },
     minVelocity: 0.75
   }
@@ -29,12 +33,26 @@ const options: Options = {
 type LensNode = Node & {
   address: string,
   profiles: string[],
+  score: number,
 }
+
 
 const styleNodes = (nodes: LensNode[]) => (nodes.map(node => {
   node.font = { size: 24, color: 'black', face: 'courier', strokeWidth: 3, strokeColor: 'white' }
+  const color = new Colors("p3", [1, 0, 0]);
+  // Interpolate the color based on the value
+  const range = color.range("green", {
+    space: "lch", // interpolation space
+    outputSpace: "srgb"
+  })
+  const value = Math.min(Math.max((node.value - 550) / (650 - 550), 0), 1);
+  // Convert the value to a color
+  node.color = node.value === 0 ? 'black' : "" + range(value)
+  node.score = node.value;
+  delete node.value;
+  node.size = 30
   node.id = node.address;
-  node.label = node.address;
+  node.label = node.address.slice(0, 9) + "..." + node.address.slice(-4);
   return node;
 }));
 
@@ -44,7 +62,7 @@ const colorEdges = (edges: ([string, string])[]) => (edges.map(arr => {
     from: arr[0],
     to: arr[1],
     color: 'blue',
-    value: 5
+    value: 1
   };
   return edge;
 }));
@@ -52,13 +70,18 @@ const colorEdges = (edges: ([string, string])[]) => (edges.map(arr => {
 
 export default function LensGraph() {
   // Debounce this input
+  const [isLoading, setIsLoading] = useState(false);
   const [lensAddress, setLensAddress] = useState('0x0146a8');
   const [selectedNode, setSelectedNode] = useState<LensNode>();
+  const [profilesData, setProfilesData] = useState<LensProfile[]>();
   const [graphData, setGraphData] = useState<any>();
 
   useEffect(() => {
     if (lensAddress) {
-      ky(`http://127.0.0.1:5000/${lensAddress}`)
+      setIsLoading(true);
+      ky(`${API_BASE}/${lensAddress}`, {
+        timeout: false,
+      })
         .then(res => res.json() as any)
         .then(({ nodes, edges }) => {
           const graph = {
@@ -66,6 +89,7 @@ export default function LensGraph() {
             edges: colorEdges(edges)
           }
           setGraphData(graph);
+          setIsLoading(false);
           console.log(graph)
         })
       setSelectedNode(undefined);
@@ -80,8 +104,13 @@ export default function LensGraph() {
     return ret;
   }, [graphData]);
 
+  // Debounce this input
+  const changeHandler = (e) => setLensAddress(e.target.value);
+
   return <>
-    <input type="text" value={lensAddress} onChange={(e) => setLensAddress(e.target.value)} />
+    <input type="text" className="ml-12 mr-2 input bg-white" value={lensAddress} onChange={changeHandler} />
+    <button className="btn bg-white" onClick={() => setLensAddress('0x0146a8')}>Reset</button>
+    {!graphData && isLoading && <Loading />}
     {graphData &&
       <div className="flex w-full">
         <div
@@ -89,14 +118,20 @@ export default function LensGraph() {
           className="h-[80vh] w-[60%] m-0"
         >
           <Graph
-            key={lensAddress}
             graph={graphData}
             options={options}
             events={{
               select: (e) => {
                 const node = nodesByAddress?.[e?.nodes?.[0]];
-                console.log(node);
                 setSelectedNode(node);
+                if (!node) setProfilesData(undefined);
+                else {
+                  const promises = node?.profiles?.map?.(async profile => {
+                    const profileData = await getProfile({ id: profile });
+                    return profileData;
+                  })
+                  Promise.all(promises).then(setProfilesData);
+                }
               }
             }}
           />
@@ -104,25 +139,45 @@ export default function LensGraph() {
         <div className="bg-white rounded-xl h-[80vh] w-[40%] m-0 p-8">
           {selectedNode
             ? <div className="flex flex-col space-y-4">
-                <div className="flex justify-between">
-                  <div className="text-xl">Address: </div>
-                  {/* Subset of address displayed */}
-                  <div className="text-xl">{selectedNode.address.slice(0, 9)}...</div>
-                </div>
-                <div className="flex justify-between">
-                  <div className="text-xl">Score: </div>
-                  <div className="text-xl">{selectedNode.value}</div>
-                </div>
-                <div>
+              <div className="flex justify-between">
+                <div className="text-xl">Address: </div>
+                {/* Subset of address displayed */}
+                <div className="text-xl">{selectedNode.address.slice(0, 9)}...</div>
+              </div>
+              <div className="flex justify-between">
+                <div className="text-xl">Score: </div>
+                <div className="text-xl">{selectedNode.score}</div>
+              </div>
+              <div>
+                {profilesData && <>
                   <div className="text-xl">Profiles: </div>
                   <ul>
-                    {selectedNode.profiles?.map?.(profile => (
-                      <li key={profile}>{profile}</li>
-                    ))}
+                    {profilesData.map(profile => <li key={profile.id}>
+                      <div className='flex flex-row bg-gray-400 text-white p-2 rounded-xl space-between-2'>
+                        <div className='avatar mr-2'>
+                          <div className="w-24 rounded-xl">
+                            <img
+                              className=''
+                              src={((arg) => {
+                                if (!arg) return '';
+                                const [protocol, CID] = arg.split('://');
+                                return protocol === 'ipfs' ? `https://ipfs.io/ipfs/${CID}` : arg;
+                              })(profile?.picture?.original?.url)} alt={profile.name} />
+                          </div>
+                        </div>
+                        <div className="flex flex-col">
+                          <div className="text-xl">{profile.name}</div>
+                          <div className="text-xl">{profile.handle}</div>
+                          <button className="button" onClick={() => setLensAddress(profile.id)}>Explore {'>'}</button>
+                        </div>
+
+                      </div>
+                    </li>)}
                   </ul>
-                </div>
+                </>}
+              </div>
             </div>
-            : 'Select a node to get started!'
+            : isLoading ? <Loading /> : 'Select a node to get started!'
           }
         </div>
       </div>}

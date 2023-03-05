@@ -1,13 +1,13 @@
 from flask import Flask
 from flask_cors import CORS
 from google.cloud import bigquery
-import pdb
 import json
 
 MAX_ADDRESSES = 100
 
 app = Flask(__name__)
 CORS(app)
+
 client = bigquery.Client()
 main_address_query = """
 SELECT (owned_by) 
@@ -47,7 +47,6 @@ def lens_data(profile_id):
 	addresses = [x for x in addresses if x in scores ]
 	address_query_string = ",".join(["\'{}\'".format(addy) for addy in addresses])
 
-	print("Profile Query: {}".format(profile_query.format(address_query_string)))
 	profile_rows = client.query(profile_query.format(address_query_string))
 	profileToAddress = {}
 	profiles = []
@@ -59,9 +58,7 @@ def lens_data(profile_id):
 	profiles.append(profile_id)
 	addresses.append(main_address)
 	profileToAddress[profile_id] = main_address
-	print("Profiles: ",profiles)
 	adjacency_query_strings = address_query_string, ",".join(["\'{}\'".format(prof) for prof in profiles])
-	print("Adjacency Query: {}".format(adjacency_query.format(*adjacency_query_strings)))
 	adjacencies = client.query(adjacency_query.format(*adjacency_query_strings))
 	edges = []
 	for row in adjacencies:
@@ -69,3 +66,4 @@ def lens_data(profile_id):
 			edges.append((row[0]['_field_1'], profileToAddress[row[0]['_field_2']]))
 	nodes = [{'address': address, 'value': scores.get(address,0), 'profiles':[k for k,v in profileToAddress.items() if v==address]} for address in addresses ]
 	return {'nodes': nodes, 'edges': edges, 'main_address': main_address}
+	
