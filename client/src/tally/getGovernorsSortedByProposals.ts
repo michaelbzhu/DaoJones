@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import client from './apollo-client'
+import { Governor } from './types'
 
 // sample return object from tally api
 // governors: [
@@ -19,18 +20,6 @@ import client from './apollo-client'
 //     }
 //   ]
 
-type Delegate = {
-  account: {
-    address: string
-  }
-}
-
-type Governor = {
-  id: string
-  name: string
-  delegates: Delegate[]
-}
-
 /**
  *
  * @param numberOfGovs number of governor contracts to query for from tally; sorted by number of total proposals
@@ -38,7 +27,7 @@ type Governor = {
  *
  * recommend 10 for maxDelegatesPerGov (we can get rate-limited by spectral api if we request data for too many wallets)
  */
-export const getGovernors = async ({
+export const getGovernorsSortedByProposals = async ({
   numberOfGovs,
   govOffset,
   maxDelegatesPerGov,
