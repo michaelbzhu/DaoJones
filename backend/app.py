@@ -30,6 +30,10 @@ adjacency_query = """
     FROM lens-public-data.polygon.public_follower
     WHERE address in ({}) AND follow_profile_id IN ({})
 """
+
+with open('./addresses.json', 'rb') as scores_file:
+	scores = json.load(scores_file)
+
 @app.route("/<profile_id>")
 def lens_data(profile_id):
 	with open('/Users/rishabhkrishnan/addresses_gotten.json', 'rb') as scores_file:
@@ -42,6 +46,7 @@ def lens_data(profile_id):
 	addresses = [row[0]['_field_1'] for row in query_job]
 	addresses = [x for x in addresses if x in scores ]
 	address_query_string = ",".join(["\'{}\'".format(addy) for addy in addresses])
+
 	print("Profile Query: {}".format(profile_query.format(address_query_string)))
 	profile_rows = client.query(profile_query.format(address_query_string))
 	profileToAddress = {}
@@ -62,16 +67,7 @@ def lens_data(profile_id):
 	for row in adjacencies:
 		if row[0]['_field_1']!=profileToAddress[row[0]['_field_2']] and row[0]['_field_1']:
 			edges.append((row[0]['_field_1'], profileToAddress[row[0]['_field_2']]))
-
-
-	
-
 	nodes = [{'address': address, 'value': scores.get(address,0), 'profiles':[k for k,v in profileToAddress.items() if v==address]} for address in addresses ]
 	return {'nodes': nodes, 'edges': edges, 'main_address': main_address}
-@app.route("/lens/<profile_id>")
-def lens_profile_data(profile_id):
-
-
-
 
     
