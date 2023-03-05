@@ -32,6 +32,9 @@ function Layout() {
             <Link className="text-xl" to="/graph">
               Graph
             </Link>
+            <Link className="text-xl" to="/app">
+              Launch App
+            </Link>
             <Profile />
           </ul>
         </div>
