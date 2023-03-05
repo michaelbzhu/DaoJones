@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { getGovernorsSortedByProposals } from '../tally/getGovernorsSortedByProposals'
-import { scheduleAndRequestSpectralScores } from '../spectral/scheduleAndRequestSpectralScores'
+import { getGovernorsSortedByProposals } from '../utils/tally/getGovernorsSortedByProposals'
+import { scheduleAndRequestSpectralScores } from '../utils/spectral/scheduleAndRequestSpectralScores'
 import { daoImageMap } from '../utils/daoImageMap'
 import { whitelistedGovernorsWithSpectralData } from './whitelistedGovernorsWithSpectralData'
 
@@ -81,9 +81,9 @@ function DaoTable() {
         name,
         address: id.split(':').at(-1),
         score:
-          wallets.reduce((sum, wallet) => {
+          Math.round(wallets.reduce((sum, wallet) => {
             return sum + Number(walletInfos[wallet].score)
-          }, 0) / wallets.length,
+          }, 0) / wallets.length),
       } as GovernorRowData
     }
   )

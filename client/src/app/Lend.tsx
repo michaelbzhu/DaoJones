@@ -13,17 +13,18 @@ const Lend = () => {
           <div className="stat">
             <div className="stat-title">Account balance</div>
             <div className="stat-value">
-              {data.formatted + ' ' + data.symbol}
+              {address ? `${data.formatted + ' ' + data.symbol}` : '---'}
             </div>
           </div>
           <div className="stat">
             <div className="stat-title">Lending @ 2.00%</div>
-            <div className="stat-value">1.123 ETH</div>
+            <div className="stat-value">{address ? '1.123 ETH' : '---'}</div>
           </div>
         </div>
       )}
+      <p className="mt-2">We encourage you to bridge tokens to Arbitrum using the Swap tab.</p>
       {isError ? <div>Error fetching balance</div> : null}
-      <div className="mt-8 py-4">
+      <div className="py-4">
         <input
           type="number"
           placeholder="Amount"

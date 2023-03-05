@@ -22,4 +22,4 @@ export const daoImageMap = {
   '0x6CC90C97a940b8A3BAA3055c809Ed16d609073EA': '/pony.webp',
   '0x35d9f4953748b318f18c30634bA299b237eeDfff': '/inverse.webp',
   '0x7a6BBe7fDd793CC9ab7e0fc33605FCd2D19371E8': '/reflexor.webp',
-}
+} as const;

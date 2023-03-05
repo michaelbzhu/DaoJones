@@ -60,6 +60,18 @@ async = ["asgiref (>=3.2)"]
 dotenv = ["python-dotenv"]
 
 [[package]]
+name = "flask-cors"
+version = "3.0.10"
+description = "A Flask extension adding a decorator for CORS support"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Flask = ">=0.9"
+Six = "*"
+
+[[package]]
 name = "google-api-core"
 version = "2.11.0"
 description = "Google API client core library"
@@ -411,7 +423,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "47cb34f3392da55c84a7c9fbf8d5e92d07788525c852a3c1314074984386ec2e"
+content-hash = "947a25c58c2b48425c6c337e267b5d82b2509c4fa28317be6c36cee1cd42025c"
 
 [metadata.files]
 cachetools = []
@@ -420,6 +432,7 @@ charset-normalizer = []
 click = []
 colorama = []
 flask = []
+flask-cors = []
 google-api-core = []
 google-auth = []
 google-cloud-bigquery = []

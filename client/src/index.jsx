@@ -25,15 +25,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/lens',
-        element: 'lens',
-      },
-      {
-        path: '/daos',
-        element: <DaoTable />,
-      },
-      {
-        path: '/graph',
         element: <Graph />,
+      },
+      {
+        path: '/',
+        element: <DaoTable />,
       },
       {
         path: '/app',

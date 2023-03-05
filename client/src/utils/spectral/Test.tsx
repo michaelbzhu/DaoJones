@@ -1,6 +1,5 @@
-import { getSpectralScores } from '@/spectral/getSpectralScores'
-import { scheduleAndRequestSpectralScores } from '@/spectral/scheduleAndRequestSpectralScores'
-import { scheduleSpectralScores } from '@/spectral/scheduleSpectralScores'
+import { getSpectralScores } from '@/utils/spectral/getSpectralScores'
+import { scheduleAndRequestSpectralScores } from './scheduleAndRequestSpectralScores'
 import React, { useEffect, useState } from 'react'
 import { whitelistedGovernorsWithDelegates } from './whitelistedGovernorsWithDelegates'
 
