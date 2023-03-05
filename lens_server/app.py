@@ -1,8 +1,10 @@
 from flask import Flask
+from flask_cors import CORS
 from google.cloud import bigquery
 import pdb
 import json
 app = Flask(__name__)
+CORS(app)
 client = bigquery.Client()
 initial_query = """
     SELECT (address, follow_profile_id)
