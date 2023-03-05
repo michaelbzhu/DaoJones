@@ -6,13 +6,14 @@ export const scheduleAndRequestSpectralScores = async ({
 }: {
   wallets: string[]
 }) => {
-  const res = {}
-  wallets.forEach((wallet) => {
-    res[wallet] = {
-      score: 600,
-    }
-  })
-  return { walletInfos: res }
+  // only for mocking
+  // const res = {}
+  // wallets.forEach((wallet) => {
+  //   res[wallet] = {
+  //     score: 600,
+  //   }
+  // })
+  // return { walletInfos: res }
   try {
     // console.log("wallets", wallets);
 
@@ -21,7 +22,7 @@ export const scheduleAndRequestSpectralScores = async ({
     // console.log("made post reqs to ", wallets);
 
     // HACK: wait 3 seconds before attempting to get the wallet info from spectral
-    await new Promise((resolve) => setTimeout(resolve, 3000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const walletInfos = await getSpectralScores({ wallets })
 

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
+import GovernorTable from './components/GovernorTable'
 
 function Layout() {
   return (
@@ -24,6 +25,7 @@ function Layout() {
       </div>
 
       <div className="container">
+        <GovernorTable />
         <Outlet />
       </div>
     </div>
