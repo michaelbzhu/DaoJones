@@ -13,7 +13,7 @@ import {
   darkTheme,
 } from '@rainbow-me/rainbowkit'
 import { configureChains, createClient, WagmiConfig } from 'wagmi'
-import { mainnet, polygon, optimism, arbitrum } from 'wagmi/chains'
+import { arbitrumGoerli} from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public'
 
 import './styles.css'
@@ -40,7 +40,7 @@ const router = createBrowserRouter([
 ])
 
 const { chains, provider } = configureChains(
-  [mainnet, polygon, optimism, arbitrum],
+  [arbitrumGoerli],
   [publicProvider()]
 )
 
