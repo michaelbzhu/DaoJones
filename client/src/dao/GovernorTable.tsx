@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useTable } from 'react-table'
-import { getGovernors } from '../utils/tally/getGovernors'
-import { scheduleAndRequestSpectralScores } from '../utils/spectral/scheduleAndRequestSpectralScores'
-import { imageMap } from '../utils/getDaoImages'
+import { getGovernors } from '../tally/getGovernors'
+import { scheduleAndRequestSpectralScores } from '../spectral/scheduleAndRequestSpectralScores'
+import { daoImageMap } from '../utils/daoImageMap'
 
 const Styles = styled.div`
   padding: 1rem;
@@ -47,7 +47,7 @@ function BasicTable({ data }: { data: GovernorRowData[] }) {
           <tr key={address}>
             <td className="flex align-middle">
               <img
-                src={`${imageMap[address] ?? '/default.webp'}`}
+                src={`${daoImageMap[address] ?? '/default.webp'}`}
                 alt={`${name}`}
                 width={50}
                 className=" mr-3 h-max rounded-full  p-1"

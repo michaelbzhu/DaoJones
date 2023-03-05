@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import GovernorTable from './components/GovernorTable.tsx'
+import GovernorTable from './dao/GovernorTable.tsx'
 
 import { EthProvider } from './contexts/EthContext'
 import Layout from './Layout'

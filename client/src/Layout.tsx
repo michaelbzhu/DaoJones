@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import GovernorTable from './components/GovernorTable'
+import GovernorTable from './dao/GovernorTable'
 
 function Layout() {
   return (

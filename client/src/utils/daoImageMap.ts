@@ -1,4 +1,4 @@
-export const imageMap = {
+export const daoImageMap = {
   '0x6f3E6272A167e8AcCb32072d08E0957F9c79223d': '/nouns.webp',
   '0x5d2C31ce16924C2a71D317e5BbFd5ce387854039': '/lilnouns.webp',
   '0xc0Da02939E1441F497fd74F78cE7Decb17B66529': '/compound.webp',
