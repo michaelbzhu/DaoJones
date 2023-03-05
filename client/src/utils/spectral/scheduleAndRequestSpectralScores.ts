@@ -6,6 +6,13 @@ export const scheduleAndRequestSpectralScores = async ({
 }: {
   wallets: string[]
 }) => {
+  const res = {}
+  wallets.forEach((wallet) => {
+    res[wallet] = {
+      score: 600,
+    }
+  })
+  return { walletInfos: res }
   try {
     // console.log("wallets", wallets);
 

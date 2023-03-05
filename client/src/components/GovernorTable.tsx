@@ -9,29 +9,54 @@ const Styles = styled.div`
 
   table {
     border-spacing: 0;
-    border: 1px solid black;
+    width: 100%;
 
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
+    th {
+      margin: 0;
+      padding: 1rem;
+      border-bottom: 1px solid black;
+      text-align: left;
     }
 
-    th,
     td {
       margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
+      padding: 1rem;
+      border-bottom: 1px solid gray;
     }
   }
 `
+
+type GovernorRowData = {
+  name: string
+  address: string
+  score: number
+}
+
+function BasicTable({ data }: { data: GovernorRowData[] }) {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Governor Contract</th>
+          <th>Credit Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map(({ name, address, score }) => (
+          <tr>
+            <td>
+              <span className=" text-xl font-semibold">{name}</span> <br />{' '}
+              <span className=" text-base font-light text-gray-600">
+                {address}
+              </span>
+            </td>
+            <td className="text-2xl font-semibold">{score}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
 
 function Table({ columns, data }) {
   // Use the state and functions returned from useTable to build your UI
@@ -74,7 +99,11 @@ function GovernorTable() {
     () => [
       {
         Header: 'Name',
-        accessor: 'dao',
+        accessor: 'name',
+      },
+      {
+        Header: 'Address',
+        accessor: 'address',
       },
       {
         Header: 'Score',
@@ -84,10 +113,7 @@ function GovernorTable() {
     []
   )
 
-  const [tableData, setTableData] = React.useState([
-    { dao: 'DAO1', score: 650 },
-    { dao: 'DAO1', score: 650 },
-  ])
+  const [tableData, setTableData] = React.useState(null)
 
   const data = React.useMemo(() => tableData, [tableData])
 
@@ -99,7 +125,7 @@ function GovernorTable() {
       })
       console.log({ governors })
 
-      const tableData = []
+      const tableData: GovernorRowData[] = []
       const promiseArrForEachDAO = []
       governors.forEach(async (governor) => {
         promiseArrForEachDAO.push(
@@ -110,7 +136,8 @@ function GovernorTable() {
           }).then(({ walletInfos }) => {
             const wallets = Object.keys(walletInfos)
             tableData.push({
-              dao: governor.name,
+              name: governor.name,
+              address: governor.id.split(':').at(-1),
               score:
                 wallets.reduce((sum, wallet) => {
                   return sum + Number(walletInfos[wallet].score)
@@ -128,9 +155,7 @@ function GovernorTable() {
   }, [])
 
   return (
-    <Styles>
-      <Table columns={columns} data={data} />
-    </Styles>
+    <Styles>{data ? <BasicTable data={data} /> : <p>'loading...'</p>}</Styles>
   )
 }
 
