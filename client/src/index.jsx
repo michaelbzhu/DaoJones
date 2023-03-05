@@ -7,6 +7,7 @@ import DaoTable from './daos/DaoTable.tsx'
 import { EthProvider } from './contexts/EthContext'
 import Layout from './Layout'
 import Graph from './routes/graph'
+import ProtocolApp from './app/ProtocolApp'
 
 import './styles.css'
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: '/graph',
         element: <Graph />,
+      },
+      {
+        path: '/app',
+        element: <ProtocolApp />,
       },
     ],
   },
