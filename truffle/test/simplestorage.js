@@ -1,18 +1,20 @@
+let simpleStorageInstance;
+
 const SimpleStorage = artifacts.require("SimpleStorage");
 
-contract('SimpleStorage', () => {
-  it('should read newly written values', async() => {
-    const simpleStorageInstance = await SimpleStorage.deployed();
-    var value = (await simpleStorageInstance.read()).toNumber();
+contract("SimpleStorage", accounts => {
 
-    assert.equal(value, 0, "0 wasn't the initial value");
+  beforeEach(async () => {
+    simpleStorageInstance = await SimpleStorage.new();
+  })
 
-    await simpleStorageInstance.write(1);
-    value = (await simpleStorageInstance.read()).toNumber();
-    assert.equal(value, 1, "1 was not written");
+  it("...should store the value 89.", async () => {
+    // Set value of 89
+    const tx = await simpleStorageInstance.set(89, { from: accounts[0]});
 
-    await simpleStorageInstance.write(2);
-    value = (await simpleStorageInstance.read()).toNumber();
-    assert.equal(value, 2, "2 was not written");
+    // Get stored value
+    const storedData = await simpleStorageInstance.get.call();
+
+    assert.equal(storedData, 89, "The value 89 was not stored.");
   });
 });
