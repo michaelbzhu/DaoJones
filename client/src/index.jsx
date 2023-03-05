@@ -1,11 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import GovernorTable from './dao/GovernorTable.tsx'
-
+import DaoTable from './daos/DaoTable.tsx'
 import { EthProvider } from './contexts/EthContext'
 import Layout from './Layout'
-
 import Graph from './routes/graph'
 
 import './styles.css'
@@ -21,7 +19,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/daos',
-        element: <GovernorTable />,
+        element: <DaoTable />,
       },
       {
         path: '/graph',

@@ -25,7 +25,7 @@ const Styles = styled.div`
     }
   }
 `
-
+// NOTE: we use DAO and Governor interchangably in the codebase
 type GovernorRowData = {
   name: string
   address: string
@@ -66,7 +66,7 @@ function BasicTable({ data }: { data: GovernorRowData[] }) {
   )
 }
 
-function GovernorTable() {
+function DaoTable() {
   const [tableData, setTableData] = React.useState(null)
 
   const data = React.useMemo(() => tableData, [tableData])
@@ -114,4 +114,4 @@ function GovernorTable() {
   )
 }
 
-export default GovernorTable
+export default DaoTable

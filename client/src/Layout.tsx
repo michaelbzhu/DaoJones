@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import GovernorTable from './dao/GovernorTable'
+import DaoTable from './daos/DaoTable'
 
 function Layout() {
   return (
@@ -25,7 +25,7 @@ function Layout() {
       </div>
 
       <div className="container">
-        <GovernorTable />
+        <DaoTable />
         <Outlet />
       </div>
     </div>
