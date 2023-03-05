@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { getGovernorsSortedByProposals } from '../tally/getGovernorsSortedByProposals'
-import { scheduleAndRequestSpectralScores } from '../spectral/scheduleAndRequestSpectralScores'
+import { getGovernorsSortedByProposals } from '../utils/tally/getGovernorsSortedByProposals'
+import { scheduleAndRequestSpectralScores } from '../utils/spectral/scheduleAndRequestSpectralScores'
 import { daoImageMap } from '../utils/daoImageMap'
 import { whitelistedGovernorsWithSpectralData } from './whitelistedGovernorsWithSpectralData'
 
