@@ -5,6 +5,9 @@ import GovernorTable from './components/GovernorTable.tsx'
 
 import { EthProvider } from './contexts/EthContext'
 import Layout from './Layout'
+
+import Graph from './routes/graph'
+
 import './styles.css'
 
 const router = createBrowserRouter([
@@ -17,8 +20,12 @@ const router = createBrowserRouter([
         element: 'lens',
       },
       {
-        path: '/table',
+        path: '/daos',
         element: <GovernorTable />,
+      },
+      {
+        path: '/graph',
+        element: <Graph />,
       },
     ],
   },

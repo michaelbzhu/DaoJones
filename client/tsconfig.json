@@ -18,6 +18,7 @@
     "isolatedModules": true,
     "jsx": "react",
     "sourceMap": true,
+    "types": ["node", "vite/client"],
   },
   "include": ["**/*.ts", "**/*.tsx", "src/index.js"],
   "exclude": ["node_modules"]
