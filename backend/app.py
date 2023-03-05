@@ -69,5 +69,3 @@ def lens_data(profile_id):
 			edges.append((row[0]['_field_1'], profileToAddress[row[0]['_field_2']]))
 	nodes = [{'address': address, 'value': scores.get(address,0), 'profiles':[k for k,v in profileToAddress.items() if v==address]} for address in addresses ]
 	return {'nodes': nodes, 'edges': edges, 'main_address': main_address}
-
-    
