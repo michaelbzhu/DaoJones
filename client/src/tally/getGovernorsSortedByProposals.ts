@@ -38,7 +38,7 @@ type Governor = {
  *
  * recommend 10 for maxDelegatesPerGov (we can get rate-limited by spectral api if we request data for too many wallets)
  */
-export const getGovernors = async ({
+export const getGovernorsSortedByProposals = async ({
   numberOfGovs,
   govOffset,
   maxDelegatesPerGov,
