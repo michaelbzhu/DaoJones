@@ -36,14 +36,12 @@ with open('./addresses.json', 'rb') as scores_file:
 
 @app.route("/<profile_id>")
 def lens_data(profile_id):
-	with open('/Users/rishabhkrishnan/addresses_gotten.json', 'rb') as scores_file:
-		scores = json.load(scores_file)
 	main_address_result = client.query(main_address_query.format(profile_id))
 	main_address = list(main_address_result)[0][0]
 	print("Main Address: ", main_address)
 	query_job = client.query(initial_query.format(profile_id))
 	#print([row[0] for row in query_job])
-	addresses = [row[0]['_field_1'] for row in query_job]
+	addresses = [row[0]['_field_1'] for row in query_job][:MAX_ADDRESSES]
 	addresses = [x for x in addresses if x in scores ]
 	address_query_string = ",".join(["\'{}\'".format(addy) for addy in addresses])
 
