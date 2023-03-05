@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client'
 import client from './apollo-client'
+import { Governor } from './types'
 
 // sample return object from tally api
 // governors: [
@@ -18,18 +19,6 @@ import client from './apollo-client'
 //       proposalStats: [Object]
 //     }
 //   ]
-
-type Delegate = {
-  account: {
-    address: string
-  }
-}
-
-type Governor = {
-  id: string
-  name: string
-  delegates: Delegate[]
-}
 
 /**
  *
