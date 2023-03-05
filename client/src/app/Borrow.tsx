@@ -28,7 +28,8 @@ const Borrow = () => {
         </div>
       )}
       {isError ? <div>Error fetching balance</div> : null}
-      <div className="mt-8 py-4">
+      <p className="mt-2">We encourage you to bridge tokens between Arbitrum and the base chain of your DAO using the Swap tab.</p>
+      <div className="py-4">
         <input
           type="number"
           placeholder="Amount"

@@ -22,8 +22,9 @@ const Lend = () => {
           </div>
         </div>
       )}
+      <p className="mt-2">We encourage you to bridge tokens to Arbitrum using the Swap tab.</p>
       {isError ? <div>Error fetching balance</div> : null}
-      <div className="mt-8 py-4">
+      <div className="py-4">
         <input
           type="number"
           placeholder="Amount"

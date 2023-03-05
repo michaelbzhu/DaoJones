@@ -85,7 +85,6 @@ export default function LensGraph() {
   }, [graphData]);
 
   useEffect(() => {
-    console.log(graphData?.nodes?.some?.((node: LensNode) => node.profiles.some(profile => profile === lensAddress)))
     if (graphData?.nodes?.some?.((node: LensNode) => node.profiles.some(profile => profile === lensAddress))) {
       const node = graphData?.nodes?.find((node: LensNode) => node.profiles.some(profile => profile === lensAddress))
       const promises = node?.profiles?.map?.(async profile => {
