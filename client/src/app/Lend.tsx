@@ -13,12 +13,12 @@ const Lend = () => {
           <div className="stat">
             <div className="stat-title">Account balance</div>
             <div className="stat-value">
-              {data.formatted + ' ' + data.symbol}
+              {address ? `${data.formatted + ' ' + data.symbol}` : '---'}
             </div>
           </div>
           <div className="stat">
             <div className="stat-title">Lending @ 2.00%</div>
-            <div className="stat-value">1.123 ETH</div>
+            <div className="stat-value">{address ? '1.123 ETH' : '---'}</div>
           </div>
         </div>
       )}

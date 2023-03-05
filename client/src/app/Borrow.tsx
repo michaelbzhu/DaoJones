@@ -16,12 +16,14 @@ const Borrow = () => {
           <div className="stat">
             <div className="stat-title">Interest Rate</div>
             <div className="stat-value">
-              2.50% {/* replace this with algo */}
+              {address ? '2.50%' : '---'} {/* replace this with algo */}
             </div>
           </div>
           <div className="stat">
             <div className="stat-title">Outstanding Balance</div>
-            <div className="stat-value">{`${outstanding} ETH`}</div>
+            <div className="stat-value">
+              {address ? `${outstanding} ETH` : '---'}
+            </div>
           </div>
         </div>
       )}
