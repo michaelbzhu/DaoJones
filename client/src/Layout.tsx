@@ -1,18 +1,6 @@
 import React from 'react'
 import { Link, Outlet } from 'react-router-dom'
-import { useAccount, useConnect, useEnsName } from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-
-function Profile() {
-  const { address, isConnected } = useAccount()
-  const { data: ensName } = useEnsName({ address })
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  })
-
-  if (isConnected) return <div>Connected to {ensName ?? address}</div>
-  return <button onClick={() => connect()}>Connect Wallet</button>
-}
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 function Layout() {
   return (
@@ -23,7 +11,7 @@ function Layout() {
             Trident
           </Link>
         </div>
-        <div className="flex-none">
+        <div className="align-center flex-none">
           <ul className="menu menu-horizontal space-x-2 px-1">
             <Link className="btn-ghost btn text-xl" to="/daos">
               DAOs
@@ -37,7 +25,7 @@ function Layout() {
             <Link className="btn-ghost btn text-xl" to="/app">
               Launch App
             </Link>
-            <Profile />
+            <ConnectButton />
           </ul>
         </div>
       </div>
