@@ -3,6 +3,9 @@ from flask_cors import CORS
 from google.cloud import bigquery
 import pdb
 import json
+
+MAX_ADDRESSES = 100
+
 app = Flask(__name__)
 CORS(app)
 client = bigquery.Client()
@@ -34,7 +37,7 @@ def lens_data(profile_id):
 	print("Main Address: ", main_address)
 	query_job = client.query(initial_query.format(profile_id))
 	#print([row[0] for row in query_job])
-	addresses = [row[0]['_field_1'] for row in query_job]
+	addresses = [row[0]['_field_1'] for row in query_job][:MAX_ADDRESSES]
 	address_query_string = ",".join(["\'{}\'".format(addy) for addy in addresses])
 	print("Profile Query: {}".format(profile_query.format(address_query_string)))
 	profile_rows = client.query(profile_query.format(address_query_string))
@@ -65,7 +68,7 @@ def lens_data(profile_id):
 	return {'nodes': nodes, 'edges': edges, 'main_address': main_address}
 @app.route("/lens/<profile_id>")
 def lens_profile_data(profile_id):
-	
+
 
 
 
