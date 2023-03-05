@@ -28,7 +28,7 @@ const router = createBrowserRouter([
         element: <Graph />,
       },
       {
-        path: '/daos',
+        path: '/',
         element: <DaoTable />,
       },
       {

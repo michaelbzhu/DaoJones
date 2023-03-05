@@ -22,8 +22,8 @@ const options: Options = {
   },
   physics: {
     barnesHut: {
-      gravitationalConstant: 0,
-      centralGravity: 0,
+      "gravitationalConstant": -3900,
+      "centralGravity": 0,
       springConstant: 0
     },
     minVelocity: 0.75
@@ -71,10 +71,31 @@ const colorEdges = (edges: ([string, string])[]) => (edges.map(arr => {
 export default function LensGraph() {
   // Debounce this input
   const [isLoading, setIsLoading] = useState(false);
-  const [lensAddress, setLensAddress] = useState('0x0146a8');
+  const [lensAddress, setLensAddress] = useState('0xf30c');
   const [selectedNode, setSelectedNode] = useState<LensNode>();
   const [profilesData, setProfilesData] = useState<LensProfile[]>();
   const [graphData, setGraphData] = useState<any>();
+
+  const nodesByAddress = useMemo(() => {
+    const ret: Record<string, LensNode> = {}
+    graphData?.nodes?.forEach?.(node => {
+      ret[node.address] = node;
+    });
+    return ret;
+  }, [graphData]);
+
+  useEffect(() => {
+    console.log(graphData?.nodes?.some?.((node: LensNode) => node.profiles.some(profile => profile === lensAddress)))
+    if (graphData?.nodes?.some?.((node: LensNode) => node.profiles.some(profile => profile === lensAddress))) {
+      const node = graphData?.nodes?.find((node: LensNode) => node.profiles.some(profile => profile === lensAddress))
+      const promises = node?.profiles?.map?.(async profile => {
+        const profileData = await getProfile({ id: profile });
+        return profileData;
+      })
+      Promise.all(promises).then(setProfilesData);
+      setSelectedNode(node);
+    }
+  }, [graphData, lensAddress])
 
   useEffect(() => {
     if (lensAddress) {
@@ -96,28 +117,20 @@ export default function LensGraph() {
     }
   }, [lensAddress]);
 
-  const nodesByAddress = useMemo(() => {
-    const ret: Record<string, LensNode> = {}
-    graphData?.nodes?.forEach?.(node => {
-      ret[node.address] = node;
-    });
-    return ret;
-  }, [graphData]);
+
 
   // Debounce this input
   const changeHandler = (e) => setLensAddress(e.target.value);
 
   return <>
     <input type="text" className="ml-12 mr-2 input bg-white" value={lensAddress} onChange={changeHandler} />
-    <button className="btn bg-white" onClick={() => setLensAddress('0x0146a8')}>Reset</button>
-    {!graphData && isLoading && <Loading />}
-    {graphData &&
+    <button className="btn bg-white" onClick={() => setLensAddress('0xf30c')}>Reset</button>
       <div className="flex w-full">
         <div
           tabIndex={0}
           className="h-[80vh] w-[60%] m-0"
         >
-          <Graph
+          {graphData ? <Graph
             graph={graphData}
             options={options}
             events={{
@@ -134,10 +147,10 @@ export default function LensGraph() {
                 }
               }
             }}
-          />
+          /> : <Loading className='mt-[30vh]' />}
         </div>
         <div className="bg-white rounded-xl h-[80vh] w-[40%] m-0 p-8">
-          {selectedNode
+          {!graphData ? <Loading className='mt-[20vh]' /> : selectedNode
             ? <div className="flex flex-col space-y-4">
               <div className="flex justify-between">
                 <div className="text-xl">Address: </div>
@@ -177,9 +190,9 @@ export default function LensGraph() {
                 </>}
               </div>
             </div>
-            : isLoading ? <Loading /> : 'Select a node to get started!'
+            : isLoading ? <Loading className='mt-[20vh]' /> : 'Select a node to get started!'
           }
         </div>
-      </div>}
+      </div>
   </>;
 }
