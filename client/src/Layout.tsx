@@ -23,7 +23,7 @@ function Layout() {
         </div>
         <div className="flex-none">
           <ul className="menu menu-horizontal px-1">
-            <Link className="text-xl" to="/lens">
+            <Link className="text-xl" to="/daos">
               DAOs
             </Link>
             <Link className="text-xl" to="/lens">
@@ -37,7 +37,7 @@ function Layout() {
         </div>
       </div>
 
-      <div className="container">
+      <div className="container min-w-full">
         <Outlet />
       </div>
     </div>

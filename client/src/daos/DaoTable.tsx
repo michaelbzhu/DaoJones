@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { getGovernors } from '../tally/getGovernors'
+import { getGovernorsSortedByProposals } from '../tally/getGovernorsSortedByProposals'
 import { scheduleAndRequestSpectralScores } from '../spectral/scheduleAndRequestSpectralScores'
 import { daoImageMap } from '../utils/daoImageMap'
 
@@ -34,35 +34,40 @@ type GovernorRowData = {
 
 function BasicTable({ data }: { data: GovernorRowData[] }) {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Governor Contract</th>
-          <th>Credit Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        {data.map(({ name, address, score }) => (
-          <tr key={address}>
-            <td className="flex align-middle">
-              <img
-                src={`${daoImageMap[address] ?? '/default.webp'}`}
-                alt={`${name}`}
-                width={50}
-                className=" mr-3 h-max rounded-full  p-1"
-              />
-              <div>
-                <span className=" text-xl font-semibold">{name}</span> <br />
-                <span className=" text-base font-light text-gray-600">
-                  {address}
-                </span>
-              </div>
-            </td>
-            <td className="text-2xl font-semibold">{score}</td>
+    <div className=" w-full rounded-lg bg-slate-100">
+      <table>
+        <thead>
+          <tr className=" text-slate-800">
+            <th>Governor Contract</th>
+            <th>Credit Score</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {data.map(({ name, address, score }) => (
+            <tr key={address}>
+              <td className="flex align-middle">
+                <img
+                  src={`${daoImageMap[address] ?? '/default.webp'}`}
+                  alt={`${name}`}
+                  width={50}
+                  className=" mr-3 h-max rounded-full  p-1"
+                />
+                <div>
+                  <span className=" text-xl font-semibold text-slate-800">
+                    {name}
+                  </span>{' '}
+                  <br />
+                  <span className=" text-base font-light text-gray-600">
+                    {address}
+                  </span>
+                </div>
+              </td>
+              <td className="text-2xl font-semibold text-slate-800">{score}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }
 
@@ -73,8 +78,8 @@ function DaoTable() {
 
   useEffect(() => {
     const updateTableData = async () => {
-      const governors = await getGovernors({
-        numberOfGovs: 10,
+      const governors = await getGovernorsSortedByProposals({
+        numberOfGovs: 20,
         maxDelegatesPerGov: 2,
       })
       console.log({ governors })
@@ -102,6 +107,7 @@ function DaoTable() {
       })
 
       await Promise.all(promiseArrForEachDAO)
+      console.log({ tableData })
       tableData.sort((a, b) => b.score - a.score)
       setTableData(tableData)
     }
