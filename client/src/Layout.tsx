@@ -17,22 +17,24 @@ function Profile() {
 function Layout() {
   return (
     <div id="App">
-      <div className="navbar">
+      <div className="navbar font-sans">
         <div className="flex-1">
-          <a className="btn-ghost btn text-xl normal-case">Trident</a>
+          <Link className="btn-ghost btn text-xl normal-case " to="/">
+            Trident
+          </Link>
         </div>
         <div className="flex-none">
-          <ul className="menu menu-horizontal px-1">
-            <Link className="text-xl" to="/daos">
+          <ul className="menu menu-horizontal space-x-2 px-1">
+            <Link className="btn-ghost btn text-xl" to="/daos">
               DAOs
             </Link>
-            <Link className="text-xl" to="/lens">
+            <Link className="btn-ghost btn text-xl" to="/lens">
               Lens
             </Link>
-            <Link className="text-xl" to="/graph">
+            <Link className="btn-ghost btn text-xl" to="/graph">
               Graph
             </Link>
-            <Link className="text-xl" to="/app">
+            <Link className="btn-ghost btn text-xl" to="/app">
               Launch App
             </Link>
             <Profile />
@@ -40,7 +42,7 @@ function Layout() {
         </div>
       </div>
 
-      <div className="container min-w-full">
+      <div className="container min-w-full ">
         <Outlet />
       </div>
     </div>

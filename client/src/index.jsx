@@ -49,11 +49,9 @@ const client = createClient({
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.StrictMode>
-    <WagmiConfig client={client}>
-      <EthProvider>
-        <RouterProvider router={router} />
-      </EthProvider>
-    </WagmiConfig>
-  </React.StrictMode>
+  <WagmiConfig client={client}>
+    <EthProvider>
+      <RouterProvider router={router} />
+    </EthProvider>
+  </WagmiConfig>
 )
